@@ -119,10 +119,10 @@
 
   /* ─── HERO ─── */
   .hero {
-    min-height: 100vh;
+    min-height: 80vh;
     display: flex; flex-direction: column;
     justify-content: flex-end;
-    padding: 0 60px 80px;
+    padding: 0 60px 40px;
     position: relative;
     overflow: hidden;
   }
@@ -295,7 +295,7 @@
 
   /* ─── SHOWREEL ─── */
   .showreel {
-    padding: 0 60px 100px;
+    padding: 0 60px 60px;
     background: var(--black);
   }
   .showreel-label {
@@ -895,8 +895,9 @@
   @media (max-width: 900px) {
     nav { padding: 20px 24px; }
     .nav-links { display: none; }
-    section { padding: 80px 24px; }
-    .hero { padding: 0 24px 60px; }
+    section { padding: 60px 20px; }
+    .hero { padding: 0 20px 30px; }
+    .showreel { padding: 0 20px 40px; }
     .manifesto-inner { grid-template-columns: 1fr; gap: 48px; }
     .services-grid { grid-template-columns: 1fr; }
     .steps { grid-template-columns: 1fr 1fr; row-gap: 48px; }
@@ -973,9 +974,6 @@
 
 <!-- SHOWREEL -->
 <section class="showreel">
-  <div class="showreel-label">Primer rezultata / Sample work</div>
-  <h2 class="showreel-heading">Ovako izgleda <em>gotov film.</em></h2>
-  <div class="showreel-heading-en">This is what the finished product looks like.</div>
   <div class="showreel-frame">
     <iframe src="https://www.youtube.com/embed/79R8ytu7LgA?autoplay=1&mute=1&rel=0&modestbranding=1&color=white&playsinline=1" allowfullscreen allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
   </div>
@@ -1261,4 +1259,19 @@
         e.target.classList.add('visible');
         // stagger children
         const children = e.target.querySelectorAll('.service-card, .step, .client-type, .product-item');
-        children.forEach((child, i
+        children.forEach((child,         children.forEach((child, i) => {
+          child.style.transitionDelay = (i * 0.1) + 's';
+          child.classList.add('reveal', 'visible');
+        });
+      }
+    });
+  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
+  reveals.forEach(el => observer.observe(el));
+  // Fire immediately for anything already in view on load
+  reveals.forEach(el => {
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight) el.classList.add('visible');
+  });
+</script>
+</body>
+</html>
