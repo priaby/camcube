@@ -122,7 +122,7 @@
     min-height: 80vh;
     display: flex; flex-direction: column;
     justify-content: flex-end;
-    padding: 0 60px 40px;
+    padding: 100px 60px 40px;
     position: relative;
     overflow: hidden;
   }
@@ -882,12 +882,14 @@
 
   /* ─── SCROLL REVEAL ─── */
   .reveal {
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .js-reveal-ready .reveal {
     opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
   }
   .reveal.visible {
-    opacity: 1;
+    opacity: 1 !important;
     transform: translateY(0);
   }
 
@@ -1251,27 +1253,22 @@
     nav.classList.toggle('scrolled', window.scrollY > 60);
   });
 
-  // Scroll reveal
+  // Scroll reveal — add js class so CSS hides elements only when JS works
+  document.documentElement.classList.add('js-reveal-ready');
   const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.classList.add('visible');
-        // stagger children
-        const children = e.target.querySelectorAll('.service-card, .step, .client-type, .product-item');
-        children.forEach((child,         children.forEach((child, i) => {
-          child.style.transitionDelay = (i * 0.1) + 's';
-          child.classList.add('reveal', 'visible');
-        });
+
+  // Reveal immediately anything already visible on load
+  function checkReveal() {
+    reveals.forEach(el => {
+      const rect = el.getBoundingClientRect();
+      if (rect.top < window.innerHeight - 40) {
+        el.classList.add('visible');
       }
     });
-  }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(el => observer.observe(el));
-  // Fire immediately for anything already in view on load
-  reveals.forEach(el => {
-    const rect = el.getBoundingClientRect();
-    if (rect.top < window.innerHeight) el.classList.add('visible');
-  });
+  }
+  checkReveal();
+  window.addEventListener('scroll', checkReveal, { passive: true });
+
 </script>
 </body>
 </html>
