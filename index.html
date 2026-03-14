@@ -24,6 +24,7 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   html { scroll-behavior: smooth; }
+  * { cursor: auto; }
 
   body {
     background: var(--black);
@@ -33,48 +34,18 @@
     overflow-x: hidden;
   }
 
-  /* ─── CUSTOM CURSOR ─── */
-  .cursor {
-    position: fixed; width: 10px; height: 10px;
-    background: var(--gold); border-radius: 50%;
-    pointer-events: none; z-index: 9999;
-    transition: transform 0.15s ease;
-    transform: translate(-50%,-50%);
-    box-shadow: 0 0 6px rgba(200,164,90,0.8);
-  }
-  .cursor-ring {
-    position: fixed; width: 40px; height: 40px;
-    border: 1.5px solid rgba(200,164,90,0.7);
-    border-radius: 50%; pointer-events: none; z-index: 9998;
-    transition: transform 0.08s ease, width 0.3s, height 0.3s, opacity 0.3s;
-    transform: translate(-50%,-50%);
-  }
 
-  /* ─── GRAIN OVERLAY ─── */
-  body::before {
-    content: '';
-    position: fixed; inset: 0; z-index: 9997;
-    pointer-events: none;
-    opacity: 0.03;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 128px;
-  }
 
   /* ─── NAV ─── */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 100;
     display: flex; align-items: center; justify-content: space-between;
     padding: 28px 60px;
-    background: linear-gradient(to bottom, rgba(8,8,7,0.95) 0%, transparent 100%);
-    backdrop-filter: blur(0px);
-    transition: background 0.4s, backdrop-filter 0.4s;
-  }
-  nav.scrolled {
     background: rgba(8,8,7,0.92);
     backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
   }
+
 
   .logo {
     font-family: 'Syne', sans-serif;
@@ -175,7 +146,7 @@
     color: var(--gold);
     margin-bottom: 28px;
     display: flex; align-items: center; gap: 16px;
-    opacity: 0; animation: fadeUp 0.8s ease 0.3s forwards;
+    
   }
   .hero-eyebrow::before {
     content: ''; display: block;
@@ -190,7 +161,7 @@
     letter-spacing: -0.01em;
     color: var(--white);
     margin-bottom: 10px;
-    opacity: 0; animation: fadeUp 0.9s ease 0.5s forwards;
+    
   }
   .hero-title em {
     font-style: italic;
@@ -205,12 +176,12 @@
     font-style: italic;
     margin-bottom: 48px;
     letter-spacing: 0.02em;
-    opacity: 0; animation: fadeUp 0.9s ease 0.7s forwards;
+    
   }
 
   .hero-sub {
     display: flex; gap: 60px; align-items: flex-start;
-    opacity: 0; animation: fadeUp 0.9s ease 0.9s forwards;
+    
   }
   .hero-desc {
     max-width: 420px;
@@ -248,32 +219,11 @@
     margin-top: 4px;
   }
 
-  .hero-scroll {
-    position: absolute; bottom: 36px; right: 60px; z-index: 3;
-    display: flex; align-items: center; gap: 12px;
-    opacity: 0; animation: fadeIn 1s ease 1.5s forwards;
-  }
-  .hero-scroll span {
-    font-size: 0.65rem; letter-spacing: 0.2em;
-    text-transform: uppercase; color: var(--muted2);
-    writing-mode: vertical-rl;
-  }
-  .scroll-line {
-    width: 1px; height: 60px;
-    background: linear-gradient(to bottom, transparent, var(--gold));
-    animation: scrollPulse 2s ease infinite;
-  }
-  @keyframes scrollPulse {
-    0%, 100% { opacity: 0.3; transform: scaleY(1); }
     50% { opacity: 1; transform: scaleY(0.6); }
   }
 
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(30px); }
     to { opacity: 1; transform: translateY(0); }
   }
-  @keyframes fadeIn {
-    from { opacity: 0; } to { opacity: 1; }
   }
 
   /* ─── SECTION BASE ─── */
@@ -362,8 +312,6 @@
     transition: all 0.3s;
     animation: pulseBorder 2.5s ease infinite;
   }
-  @keyframes pulseBorder {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(200,164,90,0); }
     50% { box-shadow: 0 0 0 12px rgba(200,164,90,0.08); }
   }
   .placeholder-text {
@@ -880,18 +828,6 @@
   }
   .footer-links a:hover { color: var(--gold); }
 
-  /* ─── SCROLL REVEAL ─── */
-  .reveal {
-    transform: translateY(20px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .js-reveal-ready .reveal {
-    opacity: 0;
-  }
-  .reveal.visible {
-    opacity: 1 !important;
-    transform: translateY(0);
-  }
 
   /* ─── RESPONSIVE ─── */
   @media (max-width: 900px) {
@@ -914,11 +850,9 @@
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-ring" id="cursorRing"></div>
 
 <!-- NAV -->
-<nav id="nav">
+<nav>
   <a href="#" class="logo">[ <span>BRAND</span> ]</a>
   <ul class="nav-links">
     <li><a href="#services">Usluge</a></li>
@@ -968,10 +902,6 @@
     </div>
   </div>
 
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="scroll-line"></div>
-  </div>
 </section>
 
 <!-- SHOWREEL -->
@@ -981,7 +911,7 @@
   </div>
 </section>
 <section class="manifesto">
-  <div class="manifesto-inner reveal">
+  <div class="manifesto-inner">
     <div>
       <div class="manifesto-quote">
         Kupci ne kupuju nacrte.<br/>
@@ -999,8 +929,8 @@
 
 <!-- SERVICES -->
 <section id="services">
-  <div class="section-label reveal">Naše usluge / Our Services</div>
-  <div class="services-grid reveal">
+  <div class="section-label">Naše usluge / Our Services</div>
+  <div class="services-grid">
 
     <div class="service-card">
       <div class="service-num">01</div>
@@ -1043,13 +973,13 @@
 
 <!-- HOW IT WORKS -->
 <section id="how" class="how">
-  <div class="how-header reveal">
+  <div class="how-header">
     <div class="section-label">Kako funkcioniše / How It Works</div>
     <div class="how-title">Jednostavan proces.<br/>Izuzetan rezultat.</div>
     <div class="how-title-sr">Simple process. Exceptional output.</div>
   </div>
 
-  <div class="steps reveal">
+  <div class="steps">
     <div class="step">
       <div class="step-dot"><span class="step-dot-num">I</span></div>
       <div class="step-title">Procena lokacije</div>
@@ -1079,7 +1009,7 @@
 
 <!-- CLIENTS -->
 <section id="clients">
-  <div class="clients-inner reveal">
+  <div class="clients-inner">
     <div class="clients-left">
       <div class="section-label">Sa kime radimo / Who We Work With</div>
       <h2 class="clients-heading">Za ljude koji grade.</h2>
@@ -1126,7 +1056,7 @@
 
 <!-- PRODUCT DETAIL -->
 <section class="product">
-  <div class="product-inner reveal">
+  <div class="product-inner">
     <div class="section-label">Kompletan paket / The Full Package</div>
     <h2 class="product-heading">Sve u jednoj saradnji.</h2>
     <div class="product-heading-sr">Everything in one engagement.</div>
@@ -1152,7 +1082,7 @@
 </section>
 
 <!-- CTA -->
-<section class="cta reveal">
+<section class="cta">
   <div class="cta-inner">
     <h2 class="cta-heading">Dokumentujte<br/><em>ono što gradite.</em></h2>
     <div class="cta-heading-sr">Spremni ste da dokumentujete ono što gradite?</div>
@@ -1167,7 +1097,7 @@
 
 <!-- CONTACT -->
 <section id="contact" class="contact">
-  <div class="contact-inner reveal">
+  <div class="contact-inner">
     <div class="contact-info">
       <div class="contact-label">Contact / Kontakt</div>
       <h3 class="contact-heading">Razgovarajmo o vašem projektu.</h3>
@@ -1213,62 +1143,6 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // Custom cursor
-  const cursor = document.getElementById('cursor');
-  const ring = document.getElementById('cursorRing');
-  let mx = 0, my = 0, rx = 0, ry = 0;
 
-  document.addEventListener('mousemove', e => {
-    mx = e.clientX; my = e.clientY;
-    cursor.style.left = mx + 'px';
-    cursor.style.top = my + 'px';
-  });
-
-  function animateRing() {
-    rx += (mx - rx) * 0.12;
-    ry += (my - ry) * 0.12;
-    ring.style.left = rx + 'px';
-    ring.style.top = ry + 'px';
-    requestAnimationFrame(animateRing);
-  }
-  animateRing();
-
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => {
-      ring.style.width = '56px'; ring.style.height = '56px';
-      ring.style.opacity = '0.6';
-      cursor.style.transform = 'translate(-50%,-50%) scale(0)';
-    });
-    el.addEventListener('mouseleave', () => {
-      ring.style.width = '36px'; ring.style.height = '36px';
-      ring.style.opacity = '1';
-      cursor.style.transform = 'translate(-50%,-50%) scale(1)';
-    });
-  });
-
-  // Nav scroll
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 60);
-  });
-
-  // Scroll reveal — add js class so CSS hides elements only when JS works
-  document.documentElement.classList.add('js-reveal-ready');
-  const reveals = document.querySelectorAll('.reveal');
-
-  // Reveal immediately anything already visible on load
-  function checkReveal() {
-    reveals.forEach(el => {
-      const rect = el.getBoundingClientRect();
-      if (rect.top < window.innerHeight - 40) {
-        el.classList.add('visible');
-      }
-    });
-  }
-  checkReveal();
-  window.addEventListener('scroll', checkReveal, { passive: true });
-
-</script>
 </body>
 </html>
